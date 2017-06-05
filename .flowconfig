@@ -1,0 +1,66 @@
+[ignore]
+; We fork some components by platform
+.*/*[.]android.js
+
+; Ignore "BUCK" generated dirs
+<PROJECT_ROOT>/\.buckd/
+
+; Ignore unexpected extra "@providesModule"
+.*/node_modules/.*/node_modules/fbjs/.*
+
+; Ignore duplicate module providers
+; For RN Apps installed via npm, "Libraries" folder is inside
+; "node_modules/react-native" but in the source repo it is in the root
+.*/Libraries/react-native/React.js
+.*/Libraries/react-native/ReactNative.js
+
+; Ignore files from 3rd party libs which produces errors
+.*/node_modules/react-navigation/.*
+.*/node_modules/haul-cli/src/server/index.js
+.*/node_modules/haul-cli/src/server/middleware/systraceMiddleware.js
+.*/node_modules/haul-cli/src/commands/start.js
+.*/node_modules/haul-cli/src/cliEntry.js
+.*/node_modules/styled-components/src/.*
+.*/node_modules/eslint-plugin-jsx-a11y/.*
+
+[include]
+
+[libs]
+node_modules/react-native/Libraries/react-native/react-native-interface.js
+node_modules/react-native/flow
+flow
+flow-typed
+src/typedefs.js
+
+[options]
+emoji=true
+
+module.system=haste
+
+module.name_mapper='^components/\(.*\)'->'<PROJECT_ROOT>/src/components/\1'
+module.name_mapper='^containers/\(.*\)'->'<PROJECT_ROOT>/src/containers/\1'
+module.name_mapper='^stores/\(.*\)'->'<PROJECT_ROOT>/src/stores/\1'
+module.name_mapper='^stores'->'<PROJECT_ROOT>/src/stores/index.js'
+module.name_mapper='^routes'->'<PROJECT_ROOT>/src/routes.js'
+
+experimental.strict_type_args=true
+
+munge_underscores=true
+
+module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(4[0-2]\\|[1-3][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(4[0-2]\\|[1-3][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)?:? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
+
+unsafe.enable_getters_and_setters=true
+
+esproposal.decorators=ignore
+
+[version]
+^0.42.0
